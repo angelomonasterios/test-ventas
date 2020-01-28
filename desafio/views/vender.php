@@ -4,9 +4,9 @@
       <!-- row -->
       <h2>
         Venda atual:
-        <?php if (isset($_SESSION["docID"]) && $_SESSION["docID"] ): ?>
-        <strong><?= $_SESSION["docID"]  ?></strong>
-        <?php endif;  ?>
+        <?php if (isset($_SESSION["docID"]) && $_SESSION["docID"]): ?>
+        <strong><?=$_SESSION["docID"]?></strong>
+        <?php endif;?>
       </h2>
     </div>
     <!-- end row -->
@@ -33,23 +33,23 @@
                   <th>Quantidade</th>
                 </tr>
               </thead>
-              <?php 
-            if (isset($listado)):
-            
-              $longitud = count($listado);
-              //Recorro todos los elementos
-              for($i=0; $i<$longitud; $i++):  ?>
+              <?php
+if (isset($listado)):
 
-              <tr>
-                <th><?= $listado[$i]["codigo"]?></th>
-                <th><?= $listado[$i]["descricao"]?></th>
-                <th><?= $listado[$i]["preco"]?></th>
-                <th><?= $listado[$i]["total"]?></th>
-              </tr>
+    $longitud = count($listado);
+    //Recorro todos los elementos
+    for ($i = 0; $i < $longitud; $i++): ?>
 
-              <?php  endfor; 
-                  endif;
-           ?>
+	              <tr>
+	                <th><?=$listado[$i]["codigo"]?></th>
+	                <th><?=$listado[$i]["descricao"]?></th>
+	                <th><?=$listado[$i]["preco"]?></th>
+	                <th><?=$listado[$i]["total"]?></th>
+	              </tr>
+
+	              <?php endfor;
+endif;
+?>
             </table>
           </div>
         </div>
@@ -69,7 +69,8 @@
           <strong>Agregado corretamente</strong>
           <?php elseif (isset($_SESSION["register"]) && $_SESSION["register"] && $_SESSION["register"] == "Failed"): ?>
           <strong>Produto não cadastrado</strong>
-          <?php endif;  Utils::borrarSession("register"); ?>
+          <?php endif;
+Utils::borrarSession("register");?>
         </div>
       </form>
     </div>

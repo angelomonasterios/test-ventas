@@ -1,107 +1,85 @@
 <?php
+
 require_once "models/produto.php";
+require_once "models/item.php";
 
-class ProdutoController {
-
-  private $produto = null;
-
-  function __constructor($produtoModel) {
-   
-    $this->produto = $produtoModel;
-    
-  }
-
-  
-  function find($id) {
-    $produto = new Produto();
-    return  $produto->find($id);
-
-    
-  }
-  
-function vender()
+class ProdutoController
 {
-  $lista = new self();
-  $listado=$lista->getlistaProdutos();
-          
-  require_once './views/vender.php';
-}
-  
 
-  function create() {
-    require_once './views/produtos/inserir.php';
-  }
+    private $produto = null;
 
-  function store($request) {
-    $produto = $this->produto->create($request->all());
+    public function __constructor($produtoModel)
+    {
 
-    $_SESSION['cadastrado'] = true;
+        $this->produto = $produtoModel;
 
-    require_once './view/produtos/list';
-  }
-
-  function edit($id) {
-    $produto = $this->produto->find($id);
-
-    return require_once './view/produtos/form';
-  }
-  public function save()
-  {
-    if (isset($_POST)) {
-      $produto = new produto();
-      
-      $produto->setDescricao($_POST['descricaoProducto']);
-      $produto->setPreco($_POST['PrecoProducto']);
-      $produto->setCodigo($_POST['codigoProducto']);
-      $save = $produto->save();
-     
-      if ($save) {
-          $_SESSION['register'] = "complete";
-
-
-      }else {
-          $_SESSION['register'] = "Failed";
-      }
-    }else {
-      $_SESSION['register'] = "failed";
-     
     }
-    header("Location:".base_url."produto/create"); 
-    
-  }
-  function update($request, $id) {
-    $produto = $this->produto->find($id);
 
-    $produto->fill($request->all());
+    public function find($id)
+    {
+        $produto = new Produto();
+        return $produto->find($id);
 
-    $_SESSION['atualizado'] = true;
+    }
 
-    /* require_once './view/produtos/list'; */
-  }
+    public function vender()
+    {
+        $lista = new self();
+        $listado = $lista->getlistaProdutos();
 
-  function delete($id) {
-    $produto = $this->produto->find($id);
+        require_once './views/vender.php';
+    }
 
-    $produto->delete();
+    public function create()
+    {
+        require_once './views/produtos/inserir.php';
+    }
 
-    $_SESSION['deletado'] = true;
+    public function save()
+    {
+        if (isset($_POST)) {
+            $produto = new produto();
 
-    require_once './view/produtos/list';
-  }
+            $produto->setDescricao($_POST['descricaoProducto']);
+            $produto->setPreco($_POST['PrecoProducto']);
+            $produto->setCodigo($_POST['codigoProducto']);
+            $save = $produto->save();
 
-  function getlistaProdutos()
-  {
-if (isset($_SESSION['docID'])) {
-  # code...
+            if ($save) {
+                $_SESSION['register'] = "complete";
 
-    require_once "models/produto.php";
-    require_once "models/item.php";
-      $itensVenda = new item();
-      $itensVenda->setDocumento( $_SESSION['docID']);
-      $devolucion = $itensVenda->getListVenta();
-    return  $devolucion;
-  }
-  
+            } else {
+                $_SESSION['register'] = "Failed";
+            }
+        } else {
+            $_SESSION['register'] = "failed";
 
-  }
+        }
+        header("Location:" . base_url . "produto/create");
+
+    }
+
+    public function delete($id)
+    {
+        $produto = $this->produto->find($id);
+
+        $produto->delete();
+
+        $_SESSION['deletado'] = true;
+
+        require_once './view/produtos/list';
+    }
+
+    public function getlistaProdutos()
+    {
+        if (isset($_SESSION['docID'])) {
+            # code...
+
+            $itensVenda = new item();
+            $itensVenda->setDocumento($_SESSION['docID']);
+            $devolucion = $itensVenda->getListVenta();
+            return $devolucion;
+        }
+
+    }
 }
